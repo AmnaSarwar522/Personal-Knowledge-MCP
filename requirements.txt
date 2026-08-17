@@ -1,0 +1,6 @@
+mcp
+qdrant-client
+google-genai
+python-dotenv
+PyMuPDF
+langchain-text-splitters
