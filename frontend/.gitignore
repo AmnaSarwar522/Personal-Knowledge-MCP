@@ -3,4 +3,6 @@ __pycache__/
 *.pyc
 .env
 *.db
-documents/users/*
+node_modules/
+dist/
+documents/users/

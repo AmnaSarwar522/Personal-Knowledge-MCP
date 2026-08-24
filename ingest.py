@@ -8,6 +8,7 @@ from services.qdrant_service import create_collection, store_chunks
 
 PDF_PATH = Path("documents/Complex_Variables_Project_Report.pdf")
 SOURCE_NAME = PDF_PATH.name
+USER_ID = 1
 
 
 def main():
@@ -28,7 +29,12 @@ def main():
     create_collection()
 
     print("Storing chunks...")
-    store_chunks(chunks, embeddings, SOURCE_NAME)
+    store_chunks(
+        chunks,
+        embeddings,
+        SOURCE_NAME,
+        user_id=USER_ID,
+    )
 
     print("Ingestion complete!")
 

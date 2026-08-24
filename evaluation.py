@@ -2,6 +2,9 @@ from services.embedding import generate_embedding
 from services.qdrant_service import search_vectors
 
 
+USER_ID = 1
+
+
 TEST_QUERIES = [
     {
         "query": "What is a complex variable?",
@@ -28,7 +31,12 @@ TEST_QUERIES = [
 
 def evaluate_query(query: str, expected_pages: set[int], top_k: int = 3):
     query_vector = generate_embedding(query)
-    results = search_vectors(query_vector, top_k)
+
+    results = search_vectors(
+        query_vector=query_vector,
+        user_id=USER_ID,
+        top_k=top_k,
+    )
 
     retrieved_pages = [
         result.payload.get("page")

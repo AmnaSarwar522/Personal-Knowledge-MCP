@@ -4,20 +4,28 @@ import pymupdf
 from mcp.server.fastmcp import FastMCP
 
 from services.embedding import generate_embedding
-from services.qdrant_service import search_vectors, list_sources
+from services.qdrant_service import (
+    search_vectors,
+    list_sources as qdrant_list_sources,
+)
 
 
 mcp = FastMCP("Personal Knowledge Base")
+
+USER_ID = 1
 
 
 @mcp.tool()
 def search_notes(query: str, top_k: int = 5) -> str:
     """Search personal notes using semantic similarity."""
-
     query_vector = generate_embedding(query)
-    results = search_vectors(query_vector, top_k)
 
-    # Initial confidence threshold based on our test queries.
+    results = search_vectors(
+        query_vector=query_vector,
+        user_id=USER_ID,
+        top_k=top_k,
+    )
+
     MIN_SCORE = 0.60
 
     results = [
@@ -53,7 +61,6 @@ def search_notes(query: str, top_k: int = 5) -> str:
 @mcp.tool()
 def get_document(doc_id: str) -> str:
     """Get the full text of an indexed PDF document."""
-
     document_path = Path("documents") / doc_id
 
     if not document_path.exists():
@@ -84,10 +91,9 @@ def get_document(doc_id: str) -> str:
 
 
 @mcp.tool()
-def list_source_documents() -> str:
+def list_sources() -> str:
     """List all indexed source documents."""
-
-    sources = list_sources()
+    sources = qdrant_list_sources(USER_ID)
 
     if not sources:
         return "No indexed sources found."

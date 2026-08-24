@@ -1,6 +1,12 @@
 mcp
 qdrant-client
 google-genai
-python-dotenv
 PyMuPDF
 langchain-text-splitters
+fastapi
+uvicorn
+python-multipart
+python-jose[cryptography]
+sqlalchemy
+python-dotenv
+email-validator
